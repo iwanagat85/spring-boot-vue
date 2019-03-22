@@ -1,0 +1,69 @@
+buildscript {
+    ext.versions = [
+            kotlin_gradle_plugin: '1.3.21',
+            spring: '2.1.3.RELEASE'
+    ]
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$versions.spring"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin_gradle_plugin"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$versions.kotlin_gradle_plugin"
+    }
+}
+
+apply plugin: 'idea'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
+apply plugin: "kotlin-kapt"
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group 'jp.iwanagat85'
+version '1.0.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+compileKotlin {
+    kotlinOptions.jvmTarget = '1.8'
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = '1.8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
+
+    kapt 'org.springframework.boot:spring-boot-configuration-processor'
+    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'junit:junit:4.12'
+}
+
+task npmRunBuild() {
+    if (!file("${rootDir}/web/node_modules").exists()) {
+        "npm --prefix ${rootDir}/web install ${rootDir}/web"
+                .execute()
+                .waitForProcessOutput(System.out, System.err)
+    }
+    "npm --prefix ${rootDir}/web run build"
+            .execute()
+            .waitForProcessOutput(System.out, System.err)
+}
+
+processResources {
+    dependsOn npmRunBuild
+}
+
