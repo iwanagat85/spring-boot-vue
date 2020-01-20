@@ -1,7 +1,7 @@
 buildscript {
     ext.versions = [
-            kotlin_gradle_plugin: '1.3.50',
-            spring: '2.2.1.RELEASE'
+            kotlin_gradle_plugin: '1.3.61',
+            spring: '2.2.3.RELEASE'
     ]
     repositories {
         mavenCentral()
@@ -16,7 +16,7 @@ buildscript {
 apply plugin: 'idea'
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-spring'
-apply plugin: "kotlin-kapt"
+apply plugin: 'kotlin-kapt'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
