@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "vue": "^2.6.12",
-    "axios": "^0.20.0"
+    "axios": "^0.21.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.4",
